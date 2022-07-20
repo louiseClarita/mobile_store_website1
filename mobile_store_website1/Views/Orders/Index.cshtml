@@ -1,0 +1,181 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<Order>
+
+          @{
+    ViewData["Title"] = "Index";
+}
+
+ @if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Administrator"))
+    {
+   
+        <form asp-action="ShowSearchResults">
+            
+         <!--  <div class="form-group" style="width:300px"> class="control-label" class="form-control"-->
+                <label for="SearchPhrase"   ></label>
+                <input name="SearchPhrase" style="width:500px"  />
+                
+           
+                <input type="submit" value="Search" class="btn btn-primary" />
+           <!-- </div>-->
+        </form>
+       
+        <h1>Index</h1>
+
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderBalance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderStreet)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderCity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderBuilding)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderStatus)
+                    </th>
+                    <th>
+                     <!--   Html.DisplayNameFor(model => model.OrderDeliveredData)-->
+                     Delievered date
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Product)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdentityUser)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if(item.OrderStatus.Equals("InProgress")){
+                    <tr class="bg-gradient">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderBalance)$
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStreet)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderCity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderBuilding)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDeliveredData)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdentityUser.UserName)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                        </td>
+                         <td>    <a asp-action="Received" class="text-danger" asp-route-id="@item.OrderId">Order Received today?</a>
+                        </td>
+                    </tr>}else{
+                        <tr style="background-color:#c1f0c1;">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderBalance)$
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStreet)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderCity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderBuilding)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDeliveredData)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdentityUser.UserName)
+                        </td>
+                        <td>
+                            <a  asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                            <a  asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+                            <a  asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                      
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+   
+}else {
+     <h1 class="text-success">your order was successfully added! Thank you for using crazy phone lb website!</h1>
+     <h4>you will receive your order in 2-5 business days</h4>
+   <table>
+       <tr>
+           <td>Order description:</td>
+           <td>@ViewBag.orderdesc</td>
+        </tr>
+       <tr>
+           <td>Order date:</td>
+           <td>@ViewBag.orderdate</td>
+        </tr>
+        <tr>
+           <td> Your Address </td>
+           <td>@ViewBag.address</td>
+        </tr>
+        <tr>
+           <td> your order is  </td>
+           <td class="bg-light">@ViewBag.orderstatus</td>
+        </tr>
+       
+   </table>
+   <br />
+ <hr>
+ <div class="footer">
+ <h2 class="bg-success" style="color:white"> Your total is @ViewBag.total</h2>
+ </div>
+} 
+}
+
+
+
+

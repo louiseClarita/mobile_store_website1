@@ -1,0 +1,94 @@
+﻿@model mobile_store_website1.Models.Order
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<hr />
+<div style="background-color: royalblue;color:white;border-radius:2em">
+    <br />
+ <h1 >Product description :@ViewBag.orderdesc</h1>
+ <br />
+ </div>
+<div class="row">
+    <div class="col-md-4">
+        
+           
+        <form asp-action="Create">
+           
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" value="@ViewBag.orderDate" readonly/>
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderBalance" class="control-label"></label>
+                <input asp-for="OrderBalance" class="form-control" value="@ViewBag.orderBalance" readonly />
+                <span asp-validation-for="OrderBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderStreet" class="control-label"></label>
+                <input asp-for="OrderStreet" class="form-control" required/>
+                <span asp-validation-for="OrderStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderCity" class="control-label"></label>
+                <input asp-for="OrderCity" class="form-control" required />
+                <span asp-validation-for="OrderCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderBuilding" class="control-label"></label>
+                <input asp-for="OrderBuilding" class="form-control" required/>
+                <span asp-validation-for="OrderBuilding" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="OrderStatus" class="control-label"></label>
+                <input asp-for="OrderStatus" class="form-control"  value="@ViewBag.orderStatus" readonly hidden/>
+                <span asp-validation-for="OrderStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="OrderDeliveredData" class="control-label"></label>
+                <input asp-for="OrderDeliveredData" class="form-control" />
+                <span asp-validation-for="OrderDeliveredData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               
+                <!--<select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>-->
+                
+                <input asp-for="ProductId" asp-route-id="@Context.Request.RouteValues["id"]" value="@Context.Request.RouteValues["id"]" hidden/>
+            </div>
+
+
+            <div class="form-group">
+               <!-- <label asp-for="IdentityUserId" class="control-label"></label>--> 
+              <!--<select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>--> 
+              <input asp-for="IdentityUserId" class="form-control" value="@UserManager.GetUserId(User)" hidden/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Order" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+ @if (User.Identity.IsAuthenticated)
+{
+    @if(User.IsInRole("Administrator")){
+    
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+    }
+
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

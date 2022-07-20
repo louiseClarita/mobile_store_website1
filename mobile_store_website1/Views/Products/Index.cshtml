@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form asp-action="Index" asp-controller="Products">
+       <h3>Filter Price Range:</h3>
+        <div id="" ></div>
+<!--
+        <input type="range" min="0" step="3" max="500" name="hfMin" style="width: 100px"/>$ ->
+       
+        <input type="range" min="505" step="3" max="1000" name="hfMax" style="width: 100px"/>$-->
+        <select name="hfMin">
+  <option value="100">100</option>
+  <option value="200">200</option>
+  <option value="300">300</option>
+  <option value="400">400</option>
+  <option value="500">500</option>
+</select>$
+->
+<select name="hfMax">
+  <option value="600">600</option>
+  <option value="700">700</option>
+  <option value="800">800</option>
+  <option value="900">900</option>
+   <option value="1000">1000</option>
+</select>$
+
+        <input type="submit" value="Filter" />
+    </form>
+
+<!--
+ @if (User.Identity.IsAuthenticated)
+{
+    @if(User.IsInRole("Administrator")){
+    
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+
+    }
+
+}-->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductPrice)
+            </th>
+            @if(User.IsInRole("Administrator")){
+            <th>
+                @Html.DisplayNameFor(model => model.ProductAvailability)
+            </th>
+            }
+          <!--  <th>
+                Html.DisplayNameFor(model => model.ProductImage)
+            </th>
+            <th>
+                Html.DisplayNameFor(model => model.ProductImagePath)
+            </th>
+            <th>
+                Html.DisplayNameFor(model => model.Model)
+            </th>
+             <th>
+                Html.DisplayNameFor(model => model.Image)
+            </th>-->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)$
+            </td>
+            @if(User.IsInRole("Administrator")){
+           <td>
+                @Html.DisplayFor(modelItem => item.ProductAvailability)
+            </td>}
+          <!--   <td>
+                Html.DisplayFor(modelItem => item.ProductImage)
+            </td>
+            <td>
+                Html.DisplayFor(modelItem => item.ProductImagePath)
+            </td>
+            <td>
+                Html.DisplayFor(modelItem => item.Model.ModelId)
+            </td
+             <td>
+                Html.DisplayFor(modelItem => item.Image)
+            </td>-->
+           <td>
+                @if(item.ProductAvailability>0){
+                        <a asp-controller="Orders" asp-action="Create" class="button" asp-route-id="@item.ProductId">Order</a>
+                    }else{
+                     <p class="text-danger" >this product is out of stock</p>
+                    }
+            @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Administrator")){
+            
+                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> 
+        
+                
+                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                     }
+                        }       
+                       
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+﻿@model mobile_store_website1.Models.Order
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OrderId" />
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" type="date" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderBalance" class="control-label"></label>
+                <input asp-for="OrderBalance" class="form-control" />
+                <span asp-validation-for="OrderBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderStreet" class="control-label"></label>
+                <input asp-for="OrderStreet" class="form-control" />
+                <span asp-validation-for="OrderStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderCity" class="control-label"></label>
+                <input asp-for="OrderCity" class="form-control" />
+                <span asp-validation-for="OrderCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderBuilding" class="control-label"></label>
+                <input asp-for="OrderBuilding" class="form-control" />
+                <span asp-validation-for="OrderBuilding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderStatus" class="control-label"></label>
+                <input asp-for="OrderStatus" class="form-control" value="Delivered" readonly/>
+                <span asp-validation-for="OrderStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDeliveredData" class="control-label"></label>
+                <input asp-for="OrderDeliveredData" class="form-control" type="date" />
+                <span asp-validation-for="OrderDeliveredData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                <select asp-for="ProductId" class="form-control" value="@ViewBag.ProductId" text="@ViewBag.ProductName" readonly></select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdentityUserId" class="control-label"></label>
+                <select asp-for="IdentityUserId" class="form-control" text="@ViewBag.ProductName" value="@ViewBag.IdentityUserId" readonly></select>
+                <span asp-validation-for="IdentityUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
